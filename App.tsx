@@ -17,21 +17,27 @@ import {
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { ThemeProvider } from '@rneui/themed';
+import { Provider } from 'react-redux';
 
 import AppNavigation from './src/navigation/main';
 import { theme } from './src/theme';
+import { store } from './src/redux/store';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
-    <NavigationContainer>
-      <ThemeProvider theme={theme}>
-        <SafeAreaView style={styles.container}>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <AppNavigation />
-        </SafeAreaView>
-      </ThemeProvider>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <ThemeProvider theme={theme}>
+          <SafeAreaView style={styles.container}>
+            <StatusBar
+              barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            />
+            <AppNavigation />
+          </SafeAreaView>
+        </ThemeProvider>
+      </NavigationContainer>
+    </Provider>
   );
 };
 
