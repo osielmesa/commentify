@@ -51,6 +51,7 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
           name="arrow-up-bold"
           color={theme.colors.grey}
           type="material-community"
+          size={24}
         />
 
         <CustomText
@@ -62,6 +63,7 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
           name="arrow-down-bold"
           color={theme.colors.grey}
           type="material-community"
+          size={24}
         />
 
         <IconButton
@@ -96,19 +98,19 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    marginTop: 15,
   },
   authorView: {
     flexDirection: 'row',
     alignItems: 'center',
   },
   authorText: {
-    fontSize: 13,
+    fontSize: 12,
     marginLeft: 5,
   },
   dateText: {
     marginLeft: 5,
-    fontSize: 13,
+    fontSize: 12,
     color: theme.colors.grey,
   },
   commentText: {
@@ -119,7 +121,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 5,
-    marginLeft: 10,
+    marginLeft: 25,
   },
   actionsElements: {
     marginHorizontal: 3,

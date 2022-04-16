@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, FlatList, ScrollView } from 'react-native';
+import { StyleSheet, FlatList, ScrollView, View } from 'react-native';
 import { CommentType } from '../../../services/comments';
 import CommentsHeader from './CommentsHeader';
+import { theme } from '../../../theme';
 
 interface CommentItemType {
   comment: CommentType;
@@ -19,6 +20,7 @@ const CommentItem: React.FC<CommentItemType> = ({
       horizontal={true}
       style={containerStyle}
       contentContainerStyle={styles.contentContainerStyle}>
+      <View style={styles.commentLine} />
       <FlatList
         data={comments || []}
         keyExtractor={item => item.id}
@@ -47,6 +49,14 @@ const styles = StyleSheet.create({
   containerStyle: {
     marginLeft: 30,
     paddingRight: 30,
+  },
+  commentLine: {
+    position: 'absolute',
+    top: 15,
+    left: 12,
+    width: 1,
+    height: '100%',
+    backgroundColor: theme.colors.grey,
   },
 });
 
