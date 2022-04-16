@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, FlatList, ScrollView, View } from 'react-native';
 import { CommentType } from '../../../services/comments';
 import CommentsHeader from './CommentsHeader';
-import { theme } from '../../../theme';
+import { theme } from '../../../commons/theme';
 
 interface CommentItemType {
   comment: CommentType;

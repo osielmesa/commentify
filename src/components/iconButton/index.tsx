@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { theme } from '../../theme';
+import { theme } from '../../commons/theme';
 import { Icon } from '@rneui/themed';
 import CustomText from '../text';
 

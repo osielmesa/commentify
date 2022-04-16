@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
-import { mockArticlesHttpCalls } from '../services/articles';
-import { mockCommentsHttpCalls } from '../services/comments';
+import { mockArticlesHttpCalls } from '../../services/articles';
+import { mockCommentsHttpCalls } from '../../services/comments';
 
 const TIME_OUT: number = 50; //milliseconds
 

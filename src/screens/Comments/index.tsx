@@ -3,22 +3,16 @@ import { ScrollView, StyleSheet, View } from 'react-native';
 import { useSelector } from 'react-redux';
 import { selectSelectedArticle } from '../../redux/articles/articlesSelectors';
 import ArticleItem from '../../components/home/articleItem';
-import useFetch from '../../hooks/useFetch';
-import { GET_COMMENTS_ENDPOINT } from '../../services/endpoints';
-import { CommentType } from '../../services/comments';
 import CommentItem from '../../components/home/commentItem';
-import { theme } from '../../theme';
+import { theme } from '../../commons/theme';
+import { selectComments } from '../../redux/comments/commentsSelectors';
+import { RootState } from '../../redux/store';
 
 const CommentsScreen: React.FC = () => {
   const selectedArticle = useSelector(selectSelectedArticle);
-  const commentsRes = useFetch(GET_COMMENTS_ENDPOINT, {
-    mockComments: { selectedArticle }, // getting the comments for selected article
-  });
-
-  let comments: Array<CommentType> = [];
-  if (commentsRes && commentsRes.response) {
-    comments = commentsRes.response;
-  }
+  const comments = useSelector((state: RootState) =>
+    selectComments(state, selectedArticle),
+  );
 
   return (
     <ScrollView

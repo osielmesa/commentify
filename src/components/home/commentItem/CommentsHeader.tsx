@@ -8,7 +8,7 @@ import {
 import { Avatar, Icon } from '@rneui/themed';
 
 import CustomText from '../../text';
-import { theme } from '../../../theme';
+import { theme } from '../../../commons/theme';
 import IconButton from '../../iconButton';
 import { AuthorType } from '../../../services/comments';
 import AutoGrowingInput from '../../autoGrowingInput';

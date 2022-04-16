@@ -1,5 +1,5 @@
 import { GET_COMMENTS_ENDPOINT } from '../endpoints';
-import { getDarkColor } from '../../utils/randoms';
+import { getDarkColor } from '../../commons/utils/randoms';
 
 export type AuthorType = {
   name: string;
@@ -31,7 +31,7 @@ const authors: Array<AuthorType> = [
   },
 ];
 
-const mockedComments: Array<CommentType> = [
+export const mockedComments: Array<CommentType> = [
   {
     id: 'com1',
     articleId: 'art1',

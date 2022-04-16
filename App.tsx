@@ -20,7 +20,7 @@ import { ThemeProvider } from '@rneui/themed';
 import { Provider } from 'react-redux';
 
 import AppNavigation from './src/navigation/main';
-import { theme } from './src/theme';
+import { theme } from './src/commons/theme';
 import { store } from './src/redux/store';
 
 const App: React.FC = () => {
