@@ -1,18 +1,32 @@
-import React from 'react';
-import { ListRenderItem } from 'react-native';
+import React, { useCallback } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { Card } from '@rneui/themed';
 
 import { ArticleType } from '../../../services/articles';
 import CustomText from '../../text';
 
-const ArticleItem: ListRenderItem<ArticleType> = ({ item }) => {
-  const { title, description } = item;
+interface ArticleItemType {
+  article: ArticleType;
+  onPress?: Function;
+}
+
+const ArticleItem: React.FC<ArticleItemType> = ({ article, onPress }) => {
+  const { title, description } = article;
+
+  const onPressHandler = useCallback(() => {
+    if (onPress) {
+      onPress(article);
+    }
+  }, [article, onPress]);
+
   return (
-    <Card containerStyle={{ marginTop: 15 }}>
-      <Card.Title>{title}</Card.Title>
-      <Card.Divider />
-      <CustomText text={description} />
-    </Card>
+    <TouchableOpacity onPress={onPressHandler}>
+      <Card containerStyle={{ marginTop: 15 }}>
+        <Card.Title>{title}</Card.Title>
+        <Card.Divider />
+        <CustomText text={description} />
+      </Card>
+    </TouchableOpacity>
   );
 };
 

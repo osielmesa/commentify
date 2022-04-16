@@ -16,16 +16,21 @@ import {
   StyleSheet,
 } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { ThemeProvider } from '@rneui/themed';
+
 import AppNavigation from './src/navigation/main';
+import { theme } from './src/theme';
 
 const App: React.FC = () => {
   const isDarkMode = useColorScheme() === 'dark';
   return (
     <NavigationContainer>
-      <SafeAreaView style={styles.container}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <AppNavigation />
-      </SafeAreaView>
+      <ThemeProvider theme={theme}>
+        <SafeAreaView style={styles.container}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <AppNavigation />
+        </SafeAreaView>
+      </ThemeProvider>
     </NavigationContainer>
   );
 };

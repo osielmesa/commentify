@@ -1,18 +1,27 @@
 import React from 'react';
 import { View, Text, FlatList } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+
 import useFetch from '../../hooks/useFetch';
-import { getArticlesEndpoint } from '../../services/articles';
+import { ArticleType, getArticlesEndpoint } from '../../services/articles';
 import ArticleItem from '../../components/home/articleItem';
+import { screenNames } from '../../commons/screenNames';
 
 const HomeScreen: React.FC = () => {
+  const navigation = useNavigation();
   const articlesRes = useFetch(getArticlesEndpoint, { mockArticles: true });
-  console.log('osiel', articlesRes);
+
+  const onArticlePressHandler = (article: ArticleType) => {
+    navigation.navigate(screenNames.comments);
+  };
 
   if (articlesRes.response) {
     return (
       <FlatList
         data={articlesRes.response}
-        renderItem={ArticleItem}
+        renderItem={({ item }: { item: ArticleType }) => (
+          <ArticleItem article={item} onPress={onArticlePressHandler} />
+        )}
         keyExtractor={item => item.id}
       />
     );
@@ -20,7 +29,7 @@ const HomeScreen: React.FC = () => {
 
   return (
     <View>
-      <Text>Home screen</Text>
+      <Text>Loading articles...</Text>
     </View>
   );
 };
