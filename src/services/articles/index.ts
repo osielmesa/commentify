@@ -1,3 +1,5 @@
+import { GET_ARTICLES_ENDPOINTS } from '../endpoints';
+
 export type ArticleType = {
   id: string;
   title: string;
@@ -18,14 +20,12 @@ const mockedArticles: Array<ArticleType> = [
   },
 ];
 
-export const getArticlesEndpoint = '/articles';
-
 export const mockArticlesHttpCalls = (url: string, timeout: number) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       if (url) {
         switch (url) {
-          case getArticlesEndpoint:
+          case GET_ARTICLES_ENDPOINTS:
             resolve(mockedArticles);
             return;
           default:
