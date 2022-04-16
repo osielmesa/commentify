@@ -1,11 +1,17 @@
-import React from 'react';
-import { View, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useState } from 'react';
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+} from 'react-native';
 import { Avatar, Icon } from '@rneui/themed';
 
 import CustomText from '../../text';
 import { theme } from '../../../theme';
 import IconButton from '../../iconButton';
 import { AuthorType } from '../../../services/comments';
+import AutoGrowingInput from '../../autoGrowingInput';
 
 interface CommentsHeaderType {
   id: string;
@@ -16,10 +22,12 @@ interface CommentsHeaderType {
 }
 
 const CommentsHeader: React.FC<CommentsHeaderType> = props => {
+  const [showEdition, setShowEdition] = useState(false);
+  const [commentTyped, setCommentTyped] = useState('');
   const { id, author, date, votes, text } = props;
 
   const onReplyHandler = () => {
-    console.log('reply', id);
+    setShowEdition(!showEdition);
   };
 
   const onShareHandler = () => {
@@ -28,6 +36,12 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
 
   const onReportHandler = () => {
     console.log('report', id);
+  };
+
+  const addCommentHandler = () => {
+    console.log('add comment', id, commentTyped);
+    setCommentTyped('');
+    setShowEdition(false);
   };
 
   const avatarLetter =
@@ -92,6 +106,28 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
           <CustomText text={'Save'} style={styles.actionTexts} />
         </TouchableOpacity>
       </View>
+      {showEdition && (
+        <KeyboardAvoidingView style={styles.replyContainer}>
+          <AutoGrowingInput
+            value={commentTyped}
+            placeholder={'Reply here'}
+            onChangeText={(replyText: React.SetStateAction<string>) =>
+              setCommentTyped(replyText)
+            }
+            style={styles.replyInput}
+          />
+          <TouchableOpacity
+            onPress={addCommentHandler}
+            style={styles.sendReplyButton}>
+            <Icon
+              name="comment-check"
+              color={theme.colors.primary}
+              type="material-community"
+              size={30}
+            />
+          </TouchableOpacity>
+        </KeyboardAvoidingView>
+      )}
     </View>
   );
 };
@@ -129,6 +165,19 @@ const styles = StyleSheet.create({
   actionTexts: {
     fontWeight: 'bold',
     fontSize: 12,
+  },
+  replyContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  replyInput: {
+    marginLeft: 25,
+    width: 250,
+    marginTop: 5,
+  },
+  sendReplyButton: {
+    marginLeft: 5,
+    marginTop: 5,
   },
 });
 
