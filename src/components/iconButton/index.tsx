@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { theme } from '../../../theme';
+import { theme } from '../../theme';
 import { Icon } from '@rneui/themed';
-import CustomText from '../../text';
+import CustomText from '../text';
 
 interface IconButtonType {
   iconName: string;

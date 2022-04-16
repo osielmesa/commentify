@@ -4,7 +4,7 @@ import { Avatar, Icon } from '@rneui/themed';
 
 import CustomText from '../../text';
 import { theme } from '../../../theme';
-import IconButton from './IconButton';
+import IconButton from '../../iconButton';
 import { AuthorType } from '../../../services/comments';
 
 interface CommentsHeaderType {
