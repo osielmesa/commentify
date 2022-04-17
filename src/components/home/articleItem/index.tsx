@@ -1,3 +1,4 @@
+// This component shows a card with the article info and contain an onPress callback
 import React, { useCallback } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Card } from '@rneui/themed';

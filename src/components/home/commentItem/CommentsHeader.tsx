@@ -1,3 +1,4 @@
+// Component that actually shows a comment and the actions that can be taken with it.
 import React, { useState } from 'react';
 import {
   View,
@@ -69,16 +70,19 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
     );
   };
 
+  // add a vote up to the comment
   const onVoteUp = () => {
     const newVote = voteChanged ? voteChanged + 1 : votes + 1;
     dispatch(addVote({ vote: newVote, commentId: id }));
   };
 
+  // add a vote down to the comment
   const onVoteDown = () => {
     const newVote = voteChanged ? voteChanged - 1 : votes - 1;
     dispatch(addVote({ vote: newVote, commentId: id }));
   };
 
+  // Add a reply to a comment
   const addCommentHandler = () => {
     dispatch(
       addReply({

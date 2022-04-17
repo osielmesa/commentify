@@ -31,6 +31,7 @@ export const authors: Array<AuthorType> = [
   },
 ];
 
+// Comments data used as default
 export const mockedComments: Array<CommentType> = [
   {
     id: 'com1',
@@ -106,6 +107,7 @@ export const mockedComments: Array<CommentType> = [
   },
 ];
 
+// mocking comments data in a promise
 export const mockCommentsHttpCalls = (
   url: string,
   articleId: string,

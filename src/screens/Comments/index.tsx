@@ -1,3 +1,4 @@
+/*Screen that shows and article and its comments*/
 import React, { useState } from 'react';
 import {
   KeyboardAvoidingView,
@@ -34,6 +35,7 @@ const CommentsScreen: React.FC = () => {
     setShowAddComment(!showAddComment);
   };
 
+  // Add a comment to the selected article
   const addCommentHandler = () => {
     dispatch(
       addCommentToArticle({

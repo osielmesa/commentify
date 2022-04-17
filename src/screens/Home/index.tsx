@@ -1,3 +1,4 @@
+/*Principal screen that present a list of articles*/
 import React, { useEffect } from 'react';
 import { View, Text, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';

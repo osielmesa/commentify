@@ -1,3 +1,4 @@
+// Icon and title button component, onPress callback present
 import React, { useCallback } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { theme } from '../../commons/theme';

@@ -20,6 +20,9 @@ const mockedArticles: Array<ArticleType> = [
   },
 ];
 
+/*
+ * Mocking articles data
+ * */
 export const mockArticlesHttpCalls = (url: string, timeout: number) => {
   return new Promise((resolve, reject) => {
     setTimeout(() => {

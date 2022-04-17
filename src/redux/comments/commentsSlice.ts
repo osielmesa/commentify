@@ -1,3 +1,4 @@
+// This slice will manage comments in the store
 import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
 
 import { CommentType, mockedComments } from '../../services/comments';
@@ -28,6 +29,8 @@ type ChangeVoteType = {
   commentId: string;
 };
 
+/*Load comments saved in the local storage and place it store
+In case any comments are available, it will save default ones*/
 export const loadComments = createAsyncThunk(
   'comments/LOAD_COMMENTS',
   async (data, { dispatch }) => {
@@ -40,7 +43,7 @@ export const loadComments = createAsyncThunk(
     }
   },
 );
-
+// Load all replies from the local storage and place them in the store
 export const loadReplies = createAsyncThunk(
   'comments/LOAD_REPLIES',
   async (data, { dispatch }) => {
@@ -54,7 +57,7 @@ export const loadReplies = createAsyncThunk(
     }
   },
 );
-
+// Load all votes from the local storage and place them in the store
 export const loadVotes = createAsyncThunk(
   'comments/LOAD_VOTES',
   async (data, { dispatch }) => {
@@ -68,7 +71,7 @@ export const loadVotes = createAsyncThunk(
     }
   },
 );
-
+// Add a reply to a comment, save to local storage.
 export const addReply = createAsyncThunk(
   'comments/ADD_REPLY',
   async (addedReply: AddReplyType, { dispatch }) => {
@@ -86,7 +89,7 @@ export const addReply = createAsyncThunk(
     }
   },
 );
-
+// Add a comment to an article, save to local storage.
 export const addCommentToArticle = createAsyncThunk(
   'comments/ADD_COMMENT_TO_ARTICLE',
   async (addedComment: CommentType, { dispatch }) => {
@@ -104,7 +107,7 @@ export const addCommentToArticle = createAsyncThunk(
     }
   },
 );
-
+// add a vote to a comment, save it to storage
 export const addVote = createAsyncThunk(
   'comments/ADD_VOTE',
   async (voteData: ChangeVoteType, { dispatch }) => {

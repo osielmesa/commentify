@@ -1,7 +1,9 @@
+// All selectors for comments data will be found here
 import { RootState } from '../store';
 import { ArticleType } from '../../services/articles';
 import { CommentType } from '../../services/comments';
 
+//select all comments of an specific article
 export const selectComments = (
   state: RootState,
   selectedArticle: ArticleType | null,
@@ -15,6 +17,7 @@ export const selectComments = (
   return [];
 };
 
+//Select all the added replies of a comment
 export const selectAddedReplies = (
   state: RootState,
   parentCommentId: string,
@@ -29,5 +32,6 @@ export const selectAddedReplies = (
   return result;
 };
 
+// select votes number of a comment
 export const selectVote = (state: RootState, commentId: string) =>
   state.comments.votes[commentId];

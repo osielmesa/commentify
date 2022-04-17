@@ -1,3 +1,4 @@
+// Component that render a comments and its replies suing a flat list and flat list's header
 import React from 'react';
 import { StyleSheet, FlatList, ScrollView, View } from 'react-native';
 import { useSelector } from 'react-redux';

@@ -1,3 +1,4 @@
+// Input component that add height automatically when text reach the limit
 import React from 'react';
 import { TextInput, StyleSheet } from 'react-native';
 import { theme } from '../../commons/theme';

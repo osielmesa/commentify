@@ -1,3 +1,4 @@
+/*This slice will manage articles in the redux store*/
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ArticleType } from '../../services/articles';
 
