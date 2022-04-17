@@ -4,8 +4,10 @@ import { CommentType, mockedComments } from '../../services/comments';
 import {
   getCommentsFromStorage,
   getSavedRepliesFromStorage,
+  getSavedVotesFromStorage,
   saveAddedRepliesToStorage,
   saveCommentsToStorage,
+  saveVotesToStorage,
 } from '../../commons/asyncStorage/comments';
 
 export type AddReplyType = {
@@ -16,9 +18,15 @@ export type AddReplyType = {
 interface CommentsSliceType {
   values: CommentType[];
   insertedValues: AddReplyType[];
+  votes: { [char: string]: number };
   loading: boolean;
   error: string | null;
 }
+
+type ChangeVoteType = {
+  vote: number;
+  commentId: string;
+};
 
 export const loadComments = createAsyncThunk(
   'comments/LOAD_COMMENTS',
@@ -47,16 +55,53 @@ export const loadReplies = createAsyncThunk(
   },
 );
 
+export const loadVotes = createAsyncThunk(
+  'comments/LOAD_VOTES',
+  async (data, { dispatch }) => {
+    try {
+      let votes = await getSavedVotesFromStorage();
+      if (votes) {
+        dispatch(setVotes(votes));
+      }
+    } catch (error) {
+      console.log('Error getting saved replies', error);
+    }
+  },
+);
+
 export const addReply = createAsyncThunk(
   'comments/ADD_REPLY',
   async (addedReply: AddReplyType, { dispatch }) => {
-    dispatch(insertReply(addedReply));
-    const savedRepliesInStorage = await getSavedRepliesFromStorage();
-    if (savedRepliesInStorage) {
-      savedRepliesInStorage.unshift(addedReply);
-      await saveAddedRepliesToStorage(savedRepliesInStorage);
-    } else {
-      await saveAddedRepliesToStorage([addedReply]);
+    try {
+      dispatch(insertReply(addedReply));
+      const savedRepliesInStorage = await getSavedRepliesFromStorage();
+      if (savedRepliesInStorage) {
+        savedRepliesInStorage.unshift(addedReply);
+        await saveAddedRepliesToStorage(savedRepliesInStorage);
+      } else {
+        await saveAddedRepliesToStorage([addedReply]);
+      }
+    } catch (e) {
+      console.log('Error adding reply', e);
+    }
+  },
+);
+
+export const addVote = createAsyncThunk(
+  'comments/ADD_VOTE',
+  async (voteData: ChangeVoteType, { dispatch }) => {
+    try {
+      dispatch(changeVote(voteData));
+      const { vote, commentId } = voteData;
+      const savedVotes = await getSavedVotesFromStorage();
+      if (savedVotes) {
+        savedVotes[commentId] = vote;
+        await saveVotesToStorage(savedVotes);
+      } else {
+        await saveVotesToStorage({ [commentId]: vote });
+      }
+    } catch (e) {
+      console.log('Error saving vote', e);
     }
   },
 );
@@ -64,6 +109,7 @@ export const addReply = createAsyncThunk(
 const initialState: CommentsSliceType = {
   values: [],
   insertedValues: [],
+  votes: {},
   loading: false,
   error: null,
 };
@@ -91,6 +137,18 @@ export const CommentsSlice = createSlice({
     ) => {
       state.insertedValues = action.payload;
     },
+    changeVote: (
+      state: CommentsSliceType,
+      action: PayloadAction<ChangeVoteType>,
+    ) => {
+      state.votes[action.payload.commentId] = action.payload.vote;
+    },
+    setVotes: (
+      state: CommentsSliceType,
+      action: PayloadAction<{ [char: string]: number }>,
+    ) => {
+      state.votes = action.payload;
+    },
   },
   extraReducers: builder => {
     builder.addCase(loadComments.pending, state => {
@@ -108,6 +166,7 @@ export const CommentsSlice = createSlice({
   },
 });
 
-export const { setComments, insertReply, setReplies } = CommentsSlice.actions;
+export const { setComments, insertReply, setReplies, changeVote, setVotes } =
+  CommentsSlice.actions;
 
 export default CommentsSlice.reducer;

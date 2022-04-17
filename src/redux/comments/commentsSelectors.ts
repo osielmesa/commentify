@@ -28,3 +28,6 @@ export const selectAddedReplies = (
 
   return result;
 };
+
+export const selectVote = (state: RootState, commentId: string) =>
+  state.comments.votes[commentId];

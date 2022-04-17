@@ -13,10 +13,12 @@ import { theme } from '../../../commons/theme';
 import IconButton from '../../iconButton';
 import { authors, AuthorType } from '../../../services/comments';
 import AutoGrowingInput from '../../autoGrowingInput';
-import { addReply } from '../../../redux/comments/commentsSlice';
+import { addReply, addVote } from '../../../redux/comments/commentsSlice';
 import { getRandomId } from '../../../commons/utils/randoms';
 import { selectSelectedArticle } from '../../../redux/articles/articlesSelectors';
 import { nowAsLocaleString } from '../../../commons/utils/date';
+import { selectVote } from '../../../redux/comments/commentsSelectors';
+import { RootState } from '../../../redux/store';
 
 interface CommentsHeaderType {
   id: string;
@@ -31,8 +33,8 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
   const [showEdition, setShowEdition] = useState(false);
   const [commentTyped, setCommentTyped] = useState('');
   const selectedArticle = useSelector(selectSelectedArticle);
-
   const { id, author, date, votes, text } = props;
+  const voteChanged = useSelector((state: RootState) => selectVote(state, id));
 
   const onReplyHandler = () => {
     setShowEdition(!showEdition);
@@ -44,6 +46,16 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
 
   const onReportHandler = () => {
     console.log('report', id);
+  };
+
+  const onVoteUp = () => {
+    const newVote = voteChanged ? voteChanged + 1 : votes + 1;
+    dispatch(addVote({ vote: newVote, commentId: id }));
+  };
+
+  const onVoteDown = () => {
+    const newVote = voteChanged ? voteChanged - 1 : votes - 1;
+    dispatch(addVote({ vote: newVote, commentId: id }));
   };
 
   const addCommentHandler = () => {
@@ -86,10 +98,11 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
           color={theme.colors.grey}
           type="material-community"
           size={24}
+          onPress={onVoteUp}
         />
 
         <CustomText
-          text={`${votes}`}
+          text={voteChanged ? `${voteChanged}` : `${votes}`}
           style={[styles.actionsElements, styles.actionTexts]}
         />
 
@@ -98,6 +111,7 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
           color={theme.colors.grey}
           type="material-community"
           size={24}
+          onPress={onVoteDown}
         />
 
         <IconButton
