@@ -87,6 +87,24 @@ export const addReply = createAsyncThunk(
   },
 );
 
+export const addCommentToArticle = createAsyncThunk(
+  'comments/ADD_COMMENT_TO_ARTICLE',
+  async (addedComment: CommentType, { dispatch }) => {
+    try {
+      dispatch(insertCommentToArticle(addedComment));
+      let comments = await getCommentsFromStorage();
+      if (comments) {
+        comments.unshift(addedComment);
+        await saveCommentsToStorage(comments);
+      } else {
+        await saveCommentsToStorage([comments]);
+      }
+    } catch (e) {
+      console.log('Error adding comment to article', e);
+    }
+  },
+);
+
 export const addVote = createAsyncThunk(
   'comments/ADD_VOTE',
   async (voteData: ChangeVoteType, { dispatch }) => {
@@ -131,6 +149,12 @@ export const CommentsSlice = createSlice({
       const { reply, parentCommentId } = action.payload;
       state.insertedValues.unshift({ reply, parentCommentId });
     },
+    insertCommentToArticle: (
+      state: CommentsSliceType,
+      action: PayloadAction<CommentType>,
+    ) => {
+      state.values.unshift(action.payload);
+    },
     setReplies: (
       state: CommentsSliceType,
       action: PayloadAction<AddReplyType[]>,
@@ -166,7 +190,13 @@ export const CommentsSlice = createSlice({
   },
 });
 
-export const { setComments, insertReply, setReplies, changeVote, setVotes } =
-  CommentsSlice.actions;
+export const {
+  setComments,
+  insertReply,
+  setReplies,
+  changeVote,
+  setVotes,
+  insertCommentToArticle,
+} = CommentsSlice.actions;
 
 export default CommentsSlice.reducer;
