@@ -1,8 +1,12 @@
 import React from 'react';
 import { StyleSheet, FlatList, ScrollView, View } from 'react-native';
+import { useSelector } from 'react-redux';
+
 import { CommentType } from '../../../services/comments';
 import CommentsHeader from './CommentsHeader';
 import { theme } from '../../../commons/theme';
+import { selectAddedReplies } from '../../../redux/comments/commentsSelectors';
+import { RootState } from '../../../redux/store';
 
 interface CommentItemType {
   comment: CommentType;
@@ -13,7 +17,10 @@ const CommentItem: React.FC<CommentItemType> = ({
   comment,
   containerStyle,
 }) => {
-  const { author, date, text, votes, comments, id } = comment;
+  const { author, date, text, votes, comments = [], id } = comment;
+  const replies = useSelector((state: RootState) =>
+    selectAddedReplies(state, id),
+  );
 
   return (
     <ScrollView
@@ -22,7 +29,7 @@ const CommentItem: React.FC<CommentItemType> = ({
       contentContainerStyle={styles.contentContainerStyle}>
       <View style={styles.commentLine} />
       <FlatList
-        data={comments || []}
+        data={[...replies, ...comments]}
         keyExtractor={item => item.id}
         renderItem={({ item }) => (
           <CommentItem comment={item} containerStyle={styles.containerStyle} />

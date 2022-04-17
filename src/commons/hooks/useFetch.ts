@@ -12,13 +12,17 @@ const useFetch = (url: string, options?: {}) => {
     const fetchCall = async () => {
       try {
         let json;
+        // @ts-ignore
         if (options?.mockArticles) {
           json = await mockArticlesHttpCalls(url, TIME_OUT); // Mocking articles/ endpoint response
+          // @ts-ignore
         } else if (options?.mockComments) {
           // Mocking comments/ endpoint response
+          // @ts-ignore
           if (options?.mockComments.selectedArticle) {
             json = await mockCommentsHttpCalls(
               url,
+              // @ts-ignore
               options.mockComments.selectedArticle.id,
               TIME_OUT,
             );
@@ -31,6 +35,7 @@ const useFetch = (url: string, options?: {}) => {
         }
         setResponse(json);
       } catch (e) {
+        // @ts-ignore
         setError(e);
       }
     };

@@ -1,5 +1,6 @@
 import { RootState } from '../store';
 import { ArticleType } from '../../services/articles';
+import { CommentType } from '../../services/comments';
 
 export const selectComments = (
   state: RootState,
@@ -12,4 +13,18 @@ export const selectComments = (
     return comments;
   }
   return [];
+};
+
+export const selectAddedReplies = (
+  state: RootState,
+  parentCommentId: string,
+) => {
+  const result: CommentType[] = [];
+  state.comments.insertedValues.forEach(inserted => {
+    if (inserted.parentCommentId === parentCommentId) {
+      result.push(inserted.reply);
+    }
+  });
+
+  return result;
 };

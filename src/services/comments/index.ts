@@ -16,7 +16,7 @@ export type CommentType = {
   comments?: Array<CommentType>;
 };
 
-const authors: Array<AuthorType> = [
+export const authors: Array<AuthorType> = [
   {
     name: 'Osiel',
     color: getDarkColor(),

@@ -6,12 +6,17 @@ import {
   KeyboardAvoidingView,
 } from 'react-native';
 import { Avatar, Icon } from '@rneui/themed';
+import { useDispatch, useSelector } from 'react-redux';
 
 import CustomText from '../../text';
 import { theme } from '../../../commons/theme';
 import IconButton from '../../iconButton';
-import { AuthorType } from '../../../services/comments';
+import { authors, AuthorType } from '../../../services/comments';
 import AutoGrowingInput from '../../autoGrowingInput';
+import { addReply } from '../../../redux/comments/commentsSlice';
+import { getRandomId } from '../../../commons/utils/randoms';
+import { selectSelectedArticle } from '../../../redux/articles/articlesSelectors';
+import { nowAsLocaleString } from '../../../commons/utils/date';
 
 interface CommentsHeaderType {
   id: string;
@@ -22,8 +27,11 @@ interface CommentsHeaderType {
 }
 
 const CommentsHeader: React.FC<CommentsHeaderType> = props => {
+  const dispatch = useDispatch();
   const [showEdition, setShowEdition] = useState(false);
   const [commentTyped, setCommentTyped] = useState('');
+  const selectedArticle = useSelector(selectSelectedArticle);
+
   const { id, author, date, votes, text } = props;
 
   const onReplyHandler = () => {
@@ -39,7 +47,19 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
   };
 
   const addCommentHandler = () => {
-    console.log('add comment', id, commentTyped);
+    dispatch(
+      addReply({
+        parentCommentId: id,
+        reply: {
+          id: getRandomId(),
+          articleId: selectedArticle ? selectedArticle.id : '',
+          author: authors[0], // because user is not introduced, lets always take first author
+          votes: 0,
+          date: nowAsLocaleString(),
+          text: commentTyped,
+        },
+      }),
+    );
     setCommentTyped('');
     setShowEdition(false);
   };

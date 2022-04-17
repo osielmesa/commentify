@@ -9,7 +9,7 @@ import ArticleItem from '../../components/home/articleItem';
 import { screenNames } from '../../commons/screenNames';
 import { setSelectedArticle } from '../../redux/articles/articlesSlice';
 import { GET_ARTICLES_ENDPOINTS } from '../../services/endpoints';
-import { loadComments } from '../../redux/comments/commentsSlice';
+import { loadComments, loadReplies } from '../../redux/comments/commentsSlice';
 
 const HomeScreen: React.FC = () => {
   const navigation = useNavigation();
@@ -18,12 +18,14 @@ const HomeScreen: React.FC = () => {
 
   const onArticlePressHandler = (article: ArticleType) => {
     dispatch(setSelectedArticle(article));
+    // @ts-ignore
     navigation.navigate(screenNames.comments);
   };
 
   useEffect(() => {
     // TODO: this has to be moved to comments screen to only put in the redux state the comments for the selected article (better performance)
     dispatch(loadComments());
+    dispatch(loadReplies());
   }, [dispatch]);
 
   if (articlesRes.response) {
