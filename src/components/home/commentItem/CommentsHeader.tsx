@@ -4,6 +4,8 @@ import {
   StyleSheet,
   TouchableOpacity,
   KeyboardAvoidingView,
+  Share,
+  Alert,
 } from 'react-native';
 import { Avatar, Icon } from '@rneui/themed';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,7 +43,16 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
   };
 
   const onShareHandler = () => {
-    console.log('share', id);
+    try {
+      Share.share({
+        message: `author: ${author.name}\ncomment: ${text}`,
+      });
+    } catch (error) {
+      Alert.alert(
+        'We regreat that an error has occurred. Please try again later!',
+      );
+      console.log('Error sharing', error);
+    }
   };
 
   const onReportHandler = () => {
