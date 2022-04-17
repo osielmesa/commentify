@@ -56,7 +56,17 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
   };
 
   const onReportHandler = () => {
-    console.log('report', id);
+    Alert.alert(
+      'Report functionality',
+      'Here you will be able to report a comment!',
+    );
+  };
+
+  const onSaveHandler = () => {
+    Alert.alert(
+      'Save functionality',
+      'Here you will be able to save a comment!',
+    );
   };
 
   const onVoteUp = () => {
@@ -146,7 +156,7 @@ const CommentsHeader: React.FC<CommentsHeaderType> = props => {
         </TouchableOpacity>
 
         <TouchableOpacity
-          onPress={onReportHandler}
+          onPress={onSaveHandler}
           style={styles.actionsElements}>
           <CustomText text={'Save'} style={styles.actionTexts} />
         </TouchableOpacity>
